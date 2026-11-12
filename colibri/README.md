@@ -115,3 +115,18 @@ reviewed and validated against the project requirements and data.
   datasets can be named and deployed more flexibly across environments.
 * Evaluate liquid clustering for suitable tables to improve query performance
   as data volume and access patterns grow.
+
+## Alternative design: Apache Spark Structured Streaming
+
+This pipeline could instead be implemented directly with Apache Spark
+Structured Streaming APIs. Lakeflow Declarative Pipelines (formerly DLT) builds
+on Spark's streaming capabilities and adds declarative dataset definitions,
+managed pipeline execution, and built-in data quality and incremental
+processing features.
+
+For transformations or processing routines that are difficult to express
+within the pipeline framework, using Structured Streaming directly can provide
+more control over the processing logic and runtime behavior. The trade-off is
+greater development and operational effort: the application must explicitly
+handle concerns such as checkpoints, recovery, schema changes, and monitoring
+that the managed pipeline framework provides or simplifies.

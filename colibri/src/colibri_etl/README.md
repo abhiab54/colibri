@@ -18,3 +18,18 @@ To get started, go to the `transformations` folder -- most of the relevant sourc
 * If you're using the CLI, use `databricks bundle run colibri_etl --refresh sample_trips_colibri` to run a single transformation.
 
 For more tutorials and reference material, see https://docs.databricks.com/dlt.
+
+## Alternative design: Apache Spark Structured Streaming
+
+This pipeline could instead be implemented directly with Apache Spark
+Structured Streaming APIs. Lakeflow Declarative Pipelines (formerly DLT) builds
+on Spark's streaming capabilities and adds declarative dataset definitions,
+managed pipeline execution, and built-in data quality and incremental
+processing features.
+
+For transformations or processing routines that are difficult to express
+within the pipeline framework, using Structured Streaming directly can provide
+more control over the processing logic and runtime behavior. The trade-off is
+greater development and operational effort: the application must explicitly
+handle concerns such as checkpoints, recovery, schema changes, and monitoring
+that the managed pipeline framework provides or simplifies.
