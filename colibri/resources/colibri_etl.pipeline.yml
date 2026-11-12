@@ -1,0 +1,14 @@
+# The main pipeline for colibri
+
+resources:
+  pipelines:
+    colibri_etl:
+      name: colibri_etl
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      root_path: "../src/colibri_etl"
+
+      libraries:
+        - glob:
+            include: ../src/colibri_etl/transformations/**

@@ -1,0 +1,3 @@
+timestamp,turbine_id,wind_speed,wind_direction,power_output
+2026-02-03 04:05:06, turbine-01 , 12.5 , 270 , 8.0
+2026-02-03 04:06:06,turbine-02,,,
