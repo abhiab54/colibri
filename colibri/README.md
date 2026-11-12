@@ -22,6 +22,29 @@ built from this CDC-managed target, so they reflect the changes between
 snapshots rather than requiring each downstream transformation to compare
 snapshots independently.
 
+![alt text](image-1.png)
+### Table and compute choices
+
+The pipeline uses a materialized view for the sanitized dataset and is
+configured for serverless compute. Materialized views can be incrementally
+refreshed when Databricks determines that the query and source changes support
+incremental processing, avoiding a full recomputation when possible. Databricks
+uses its Enzyme incremental computation engine to determine and perform these
+incremental refreshes when supported.
+
+The pipeline writes tables in Unity Catalog. Using Unity Catalog managed
+tables delegates table storage and lifecycle management to Databricks, with
+platform-managed performance optimizations applied where supported and
+configured.
+
+### RAW layer scope
+
+This project does not implement the RAW ingestion layer. It assumes a separate
+data integration process extracts data from the source and publishes a
+complete daily snapshot under a dated folder in the configured volume
+location. The pipeline reads those snapshots from the volume and processes
+them downstream.
+
 ### Data quality rules
 
 The sanitized turbine dataset normalizes incoming values before validating them:
@@ -74,3 +97,21 @@ publish the correction in a new, later snapshot (or extend the ingestion design
 to discover and reprocess changed historical snapshots). This design also
 assumes each dated input is a complete snapshot; if inputs are daily deltas
 instead, snapshot comparison and deletion semantics need to be reconsidered.
+
+## AI use disclosure
+
+AI tools were used to help develop the SQL for identifying anomalies, data
+quality rules, test cases, and project documentation. These outputs should be
+reviewed and validated against the project requirements and data.
+
+## Future enhancements
+
+* Add structured application logging with Python's `logging` module to make
+  snapshot discovery, pipeline processing, and failures easier to monitor and
+  troubleshoot.
+* Capture records that fail data quality checks in a separate quarantine table
+  for investigation and possible correction, instead of dropping them.
+* Move hard-coded table names into configuration or pipeline variables so
+  datasets can be named and deployed more flexibly across environments.
+* Evaluate liquid clustering for suitable tables to improve query performance
+  as data volume and access patterns grow.
